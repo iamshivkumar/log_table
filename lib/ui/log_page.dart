@@ -8,19 +8,26 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 class LogPage extends ConsumerWidget {
   @override
-  Widget build(BuildContext context,ScopedReader watch) {
+  Widget build(BuildContext context, ScopedReader watch) {
     final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     final style = theme.textTheme;
     final model = watch(logViewModelProvider);
     return Scaffold(
       appBar: AppBar(
+        title: const Text("LOGARITHMS"),
         actions: [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(model.value,style: style.subtitle2,),
+                child: Text(
+                  model.value,
+                  style: style.subtitle2!.copyWith(
+                    color: scheme.onPrimary
+                  ),
+                ),
               ),
             ],
           )
@@ -37,30 +44,32 @@ class LogPage extends ConsumerWidget {
               final number = (index + 10);
               return [
                     LogData(
-                        label: "$number",
-                        value: number / 10,
-                        rowSelected: model.rowIndex == number,
-                        columnSelected: false,
-                        columnName: '',
-                        onTap: () {
-                          model.rowIndex = number;
-                        }),
+                      label: "$number",
+                      value: number / 10,
+                      rowSelected: model.rowIndex == number,
+                      columnSelected: false,
+                      columnName: '',
+                      onTap: () {
+                        model.rowIndex = number;
+                      },
+                      isMean: false,
+                    ),
                   ] +
                   List.generate(
                     10,
                     (rowIndex) {
                       final Log log = Calculate.logCell(number, rowIndex);
                       return LogData(
-                        label: log.label,
-                        value: log.value,
-                        rowSelected: model.rowIndex == number,
-                        columnSelected: model.logIndex == rowIndex,
-                        columnName: "$rowIndex",
-                        onTap: () {
-                          model.logIndex = rowIndex;
-                          model.rowIndex = number;
-                        },
-                      );
+                          label: log.label,
+                          value: log.value,
+                          rowSelected: model.rowIndex == number,
+                          columnSelected: model.logIndex == rowIndex,
+                          columnName: "$rowIndex",
+                          onTap: () {
+                            model.logIndex = rowIndex;
+                            model.rowIndex = number;
+                          },
+                          isMean: false);
                     },
                   ) +
                   List.generate(
@@ -82,6 +91,7 @@ class LogPage extends ConsumerWidget {
                             model.rowIndex = number;
                           }
                         },
+                        isMean: true,
                       );
                     },
                   );
@@ -102,7 +112,7 @@ class LogPage extends ConsumerWidget {
                 columnName: rowIndex.toString(),
                 label: Material(
                   color: model.logIndex == rowIndex
-                      ? theme.primaryColorLight
+                      ? theme.primaryColor
                       : theme.cardColor,
                   child: InkWell(
                     onTap: () {
@@ -122,7 +132,9 @@ class LogPage extends ConsumerWidget {
               (rowIndex) => GridColumn(
                 columnName: "${rowIndex + 1}",
                 label: Material(
-                  color: model.meanIndex== rowIndex + 1?theme.primaryColorLight:theme.cardColor,
+                  color: model.meanIndex == rowIndex + 1
+                      ? scheme.secondary
+                      : theme.cardColor,
                   child: InkWell(
                     onTap: () {
                       model.meanIndex = rowIndex + 1;
@@ -161,22 +173,27 @@ class LogDataSource extends DataGridSource {
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
       final LogData logData = dataGridCell.value as LogData;
-      return Builder(
-        builder: (context) {
-          final theme = Theme.of(context);
-          return Material(
-            color: logData.columnSelected && logData.rowSelected
-                ? theme.primaryColor
-                : (logData.columnSelected || logData.rowSelected
-                    ? theme.primaryColorLight
-                    : theme.cardColor),
-            child: InkWell(
-              onTap: logData.onTap,
-              child: Center(child: Text(logData.label)),
-            ),
-          );
-        }
-      );
+      return Builder(builder: (context) {
+        final theme = Theme.of(context);
+        final scheme = theme.colorScheme;
+        return Material(
+          color: logData.isMean
+              ? (logData.columnSelected && logData.rowSelected
+                  ? theme.highlightColor
+                  : (logData.columnSelected
+                      ? scheme.secondary: logData.rowSelected?theme.shadowColor
+                      : scheme.background))
+              : (logData.columnSelected && logData.rowSelected
+                  ? theme.primaryColorDark
+                  : (logData.columnSelected || logData.rowSelected
+                      ? theme.primaryColor
+                      : theme.cardColor)),
+          child: InkWell(
+            onTap: logData.onTap,
+            child: Center(child: Text(logData.label)),
+          ),
+        );
+      });
     }).toList());
   }
 }

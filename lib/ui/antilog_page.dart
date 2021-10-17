@@ -12,10 +12,12 @@ class AntilogPage extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final theme = Theme.of(context);
     final style = theme.textTheme;
+    final scheme = theme.colorScheme;
 
     final model = watch(antilogViewModelProvider);
     return Scaffold(
       appBar: AppBar(
+        title: const Text('ANTILOGARITHMS'),
         actions: [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -42,6 +44,7 @@ class AntilogPage extends ConsumerWidget {
               final number = index;
               return [
                     LogData(
+                        isMean: false,
                         label:
                             ".${(number / 100).toStringAsFixed(2).split('.').last}",
                         value: number / 10,
@@ -58,6 +61,7 @@ class AntilogPage extends ConsumerWidget {
                       final Antilog log =
                           Calculate.antiLogCell(number, rowIndex);
                       return LogData(
+                        isMean: false,
                         label: log.label,
                         value: log.value,
                         rowSelected: model.rowIndex == number,
@@ -76,6 +80,7 @@ class AntilogPage extends ConsumerWidget {
                       final Mean log =
                           Calculate.meanACell(number, rowIndex + 1);
                       return LogData(
+                        isMean: true,
                         label: log.label,
                         value: log.value,
                         rowSelected: model.rowIndex == number,
@@ -110,7 +115,7 @@ class AntilogPage extends ConsumerWidget {
                 columnName: rowIndex.toString(),
                 label: Material(
                   color: model.antilogIndex == rowIndex
-                      ? theme.primaryColorLight
+                      ? theme.primaryColor
                       : theme.cardColor,
                   child: InkWell(
                     onTap: () {
@@ -131,11 +136,11 @@ class AntilogPage extends ConsumerWidget {
                 columnName: "${rowIndex + 1}",
                 label: Material(
                   color: model.meanIndex == rowIndex + 1
-                      ? theme.primaryColorLight
+                      ? scheme.secondary
                       : theme.cardColor,
                   child: InkWell(
                     onTap: () {
-                      if(model.meanIndex == rowIndex + 1){
+                      if (model.meanIndex == rowIndex + 1) {
                         model.meanIndex = null;
                       } else {
                         model.meanIndex = rowIndex + 1;
@@ -177,12 +182,21 @@ class LogDataSource extends DataGridSource {
       final LogData logData = dataGridCell.value as LogData;
       return Builder(builder: (context) {
         final theme = Theme.of(context);
+        final scheme = theme.colorScheme;
         return Material(
-          color: logData.columnSelected && logData.rowSelected
-              ? theme.primaryColor
-              : (logData.columnSelected || logData.rowSelected
-                  ? theme.primaryColorLight
-                  : theme.cardColor),
+          color: logData.isMean
+              ? (logData.columnSelected && logData.rowSelected
+                  ? theme.highlightColor
+                  : (logData.columnSelected
+                      ? scheme.secondary
+                      : logData.rowSelected
+                          ? theme.shadowColor
+                          : scheme.background))
+              : (logData.columnSelected && logData.rowSelected
+                  ? theme.primaryColorDark
+                  : (logData.columnSelected || logData.rowSelected
+                      ? theme.primaryColor
+                      : theme.cardColor)),
           child: InkWell(
             onTap: logData.onTap,
             child: Center(child: Text(logData.label)),

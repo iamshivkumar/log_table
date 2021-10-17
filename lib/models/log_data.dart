@@ -28,6 +28,7 @@ class Antilog {
 }
 
 class LogData {
+  final bool isMean;
   final String label;
   final double value;
   final bool rowSelected;
@@ -42,5 +43,6 @@ class LogData {
     required this.columnSelected,
     required this.columnName,
     required this.onTap,
+    required this.isMean
   });
 }
