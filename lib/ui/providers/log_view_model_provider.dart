@@ -34,11 +34,11 @@ class LogViewModel extends ChangeNotifier {
       if (_meanIndex != null) {
         final String q = "${_rowIndex! / 10}$_logIndex$_meanIndex";
         final double mean = Calculate.meanCell(_rowIndex!, _meanIndex!).value;
-        return "Log($q) : " + (log + mean).toStringAsFixed(4);
+        return "Log($q) = " + (log + mean).toStringAsFixed(4);
       } else {
         final String q = "${_rowIndex! / 10}$_logIndex";
 
-        return "Log($q) : " + log.toString();
+        return "Log($q) = " + log.toString();
       }
     }
   }

@@ -25,7 +25,7 @@ class AntilogPage extends ConsumerWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   model.value,
-                  style: style.subtitle2,
+                  style: style.subtitle2!.copyWith(color: scheme.onPrimary),
                 ),
               ),
             ],

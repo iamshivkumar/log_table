@@ -34,10 +34,10 @@ class AntiLogViewModel extends ChangeNotifier {
       if (_meanIndex != null) {
         final String q = "${_rowIndex! / 100}$_antilogIndex$_meanIndex";
         final double mean = Calculate.meanACell(_rowIndex!, _meanIndex!).value;
-        return "Antilog($q) : " + (log + mean).toStringAsFixed(3);
+        return "Antilog($q) = " + (log + mean).toStringAsFixed(3);
       } else {
         final String q = "${_rowIndex! / 10}$_antilogIndex";
-        return "Antilog($q) : " + log.toString();
+        return "Antilog($q) = " + log.toString();
       }
     }
   }
