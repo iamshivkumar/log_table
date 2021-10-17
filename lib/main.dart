@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:log_table/generate.dart';
 import 'package:log_table/ui/colors.dart';
 import 'package:log_table/ui/home_page.dart';
 
-import 'ui/log_page.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -15,6 +14,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor: AppColors.mauve,
+      systemNavigationBarDividerColor: AppColors.palePurplePantone,
+    ));
+
     final theme = ThemeData.light();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -26,10 +30,9 @@ class MyApp extends StatelessWidget {
         primaryColorDark: AppColors.mediumOrchid,
         primaryColorLight: AppColors.palePurplePantone,
         primaryTextTheme: theme.primaryTextTheme.apply(
-          bodyColor: AppColors.indigo,
-          displayColor: AppColors.indigo,
-          decorationColor: AppColors.indigo
-        ),
+            bodyColor: AppColors.indigo,
+            displayColor: AppColors.indigo,
+            decorationColor: AppColors.indigo),
         shadowColor: AppColors.piggyPink,
         highlightColor: AppColors.mauvelous,
         colorScheme: theme.colorScheme.copyWith(

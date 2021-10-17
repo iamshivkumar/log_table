@@ -18,28 +18,55 @@ class FeatureCard extends StatelessWidget {
         aspectRatio: 3,
         child: GestureDetector(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => feature.widget,
-              ),
-            );
+            if (feature.active) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => feature.widget,
+                ),
+              );
+            }
           },
           child: Container(
+            clipBehavior: Clip.antiAlias,
             decoration: ShapeDecoration(
               color: theme.primaryColor,
               shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(56),
               ),
             ),
-            child: Center(
-              child: Text(
-                feature.name,
-                style: style.headline6!.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: scheme.onPrimary,
+            child: Stack(
+              children: [
+                Center(
+                  child: Text(
+                    feature.name,
+                    style: style.headline6!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: scheme.onPrimary,
+                    ),
+                  ),
                 ),
-              ),
+                feature.active
+                    ? SizedBox()
+                    : Container(
+                        color: theme.backgroundColor.withOpacity(0.5),
+                      ),
+                Positioned(
+                  right: 0,
+                  child: Material(
+                    color: scheme.secondary,
+                    shape: ContinuousRectangleBorder(
+                      borderRadius: BorderRadius.circular(56),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Text(feature.label,
+                          style: style.overline!
+                              .copyWith(color: scheme.onPrimary)),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),

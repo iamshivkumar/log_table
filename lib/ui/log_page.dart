@@ -4,7 +4,6 @@ import 'package:log_table/calculate.dart';
 import 'package:log_table/models/log_data.dart';
 import 'package:log_table/ui/providers/log_view_model_provider.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
 class LogPage extends ConsumerWidget {
   @override

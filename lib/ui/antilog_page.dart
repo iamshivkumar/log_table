@@ -3,7 +3,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:log_table/calculate.dart';
 import 'package:log_table/models/log_data.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'providers/antilog_view_model_provider.dart';
 

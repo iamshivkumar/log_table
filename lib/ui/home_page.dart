@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:log_table/models/feature.dart';
 import 'package:log_table/ui/antilog_page.dart';
 import 'package:log_table/ui/log_page.dart';
-
 import 'widgets/feature_card.dart';
 
 class HomePage extends StatelessWidget {
@@ -19,6 +18,42 @@ class HomePage extends StatelessWidget {
       active: true,
       label: "NEW",
     ),
+    Feature(
+      name: "NATURAL SINES",
+      widget: Scaffold(),
+      active: false,
+      label: "COMING SOON",
+    ),
+    Feature(
+      name: "NATURAL COSINES",
+      widget: Scaffold(),
+      active: false,
+      label: "COMING SOON",
+    ),
+    Feature(
+      name: "NATURAL TANGENTS",
+      widget: Scaffold(),
+      active: false,
+      label: "COMING SOON",
+    ),
+    Feature(
+      name: "LOGARITHMIC SINES",
+      widget: Scaffold(),
+      active: false,
+      label: "COMING SOON",
+    ),
+    Feature(
+      name: "LOGARITHMIC COSINES",
+      widget: Scaffold(),
+      active: false,
+      label: "COMING SOON",
+    ),
+    Feature(
+      name: "LOGARITHMIC TANGENTS",
+      widget: Scaffold(),
+      active: false,
+      label: "COMING SOON",
+    ),
   ];
   @override
   Widget build(BuildContext context) {
@@ -32,8 +67,9 @@ class HomePage extends StatelessWidget {
           const SliverAppBar(
             pinned: true,
             floating: false,
+            expandedHeight: 100,
             flexibleSpace: FlexibleSpaceBar(
-              title: Text("MATH TABLE"),
+              title: Text("LOG TABLE"),
               titlePadding: EdgeInsets.all(16),
             ),
           ),
@@ -54,4 +90,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
