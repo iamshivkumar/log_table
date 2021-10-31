@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:log_table/calculate.dart';
 import 'package:log_table/models/log_data.dart';
-import 'package:log_table/ui/log_data_source.dart';
+import 'package:log_table/natural_cosines.dart';
+import 'package:log_table/ui/providers/natural_cosines_view_model_provider.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-import 'providers/antilog_view_model_provider.dart';
+import 'log_data_source.dart';
 
-class AntilogPage extends ConsumerWidget {
+class NaturalCosinesPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final theme = Theme.of(context);
-    final style = theme.textTheme;
     final scheme = theme.colorScheme;
-
-    final model = watch(antilogViewModelProvider);
+    final style = theme.textTheme;
+    final model = watch(naturalCosinesModelProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ANTILOGARITHMS'),
+        title: const Text("NATURAL COSINES"),
         actions: [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -26,7 +25,9 @@ class AntilogPage extends ConsumerWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   model.value,
-                  style: style.subtitle2!.copyWith(color: scheme.onPrimary),
+                  style: style.subtitle2!.copyWith(
+                    color: scheme.onPrimary
+                  ),
                 ),
               ),
             ],
@@ -39,48 +40,44 @@ class AntilogPage extends ConsumerWidget {
         headerRowHeight: 40,
         source: LogDataSource(
           data: List.generate(
-            100,
+            90,
             (index) {
               final number = index;
               return [
                     LogData(
-                        isMean: false,
-                        label:
-                            ".${(number / 100).toStringAsFixed(2).split('.').last}",
-                        value: number / 10,
-                        rowSelected: model.rowIndex == number,
-                        columnSelected: false,
-                        columnName: '',
-                        onTap: () {
-                          model.rowIndex = number;
-                        }),
+                      label: "$number",
+                      value: number.toDouble(),
+                      rowSelected: model.rowIndex == number,
+                      columnSelected: false,
+                      columnName: '',
+                      onTap: () {
+                        model.rowIndex = number;
+                      },
+                      isMean: false,
+                    ),
                   ] +
                   List.generate(
                     10,
                     (rowIndex) {
-                      final Log log =
-                          Calculate.antiLogCell(number, rowIndex);
+                      final Log log = NaturalCosines.cosCell(number, rowIndex/10);
                       return LogData(
-                        isMean: false,
-                        label: log.label,
-                        value: log.value,
-                        rowSelected: model.rowIndex == number,
-                        columnSelected: model.antilogIndex == rowIndex,
-                        columnName: "$rowIndex",
-                        onTap: () {
-                          model.antilogIndex = rowIndex;
-                          model.rowIndex = number;
-                        },
-                      );
+                          label: log.label,
+                          value: log.value,
+                          rowSelected: model.rowIndex == number,
+                          columnSelected: model.logIndex == rowIndex,
+                          columnName: "$rowIndex",
+                          onTap: () {
+                            model.logIndex = rowIndex;
+                            model.rowIndex = number;
+                          },
+                          isMean: false);
                     },
                   ) +
                   List.generate(
-                    9,
+                    5,
                     (rowIndex) {
-                      final Mean log =
-                          Calculate.meanACell(number, rowIndex + 1);
+                      final Mean log = NaturalCosines.meanCell(number, rowIndex + 1);
                       return LogData(
-                        isMean: true,
                         label: log.label,
                         value: log.value,
                         rowSelected: model.rowIndex == number,
@@ -95,6 +92,7 @@ class AntilogPage extends ConsumerWidget {
                             model.rowIndex = number;
                           }
                         },
+                        isMean: true,
                       );
                     },
                   );
@@ -114,16 +112,25 @@ class AntilogPage extends ConsumerWidget {
               (rowIndex) => GridColumn(
                 columnName: rowIndex.toString(),
                 label: Material(
-                  color: model.antilogIndex == rowIndex
+                  color: model.logIndex == rowIndex
                       ? theme.primaryColor
                       : theme.cardColor,
                   child: InkWell(
                     onTap: () {
-                      model.antilogIndex = rowIndex;
+                      model.logIndex = rowIndex;
                     },
                     child: Center(
-                      child: Text(
-                        "$rowIndex",
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            "${rowIndex*6}'",
+                            style: style.bodyText1,
+                          ),
+                          Text(
+                            "${rowIndex/10}°",
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -131,7 +138,7 @@ class AntilogPage extends ConsumerWidget {
               ),
             ) +
             List.generate(
-              9,
+              5,
               (rowIndex) => GridColumn(
                 columnName: "${rowIndex + 1}",
                 label: Material(
@@ -140,15 +147,11 @@ class AntilogPage extends ConsumerWidget {
                       : theme.cardColor,
                   child: InkWell(
                     onTap: () {
-                      if (model.meanIndex == rowIndex + 1) {
-                        model.meanIndex = null;
-                      } else {
-                        model.meanIndex = rowIndex + 1;
-                      }
+                      model.meanIndex = rowIndex + 1;
                     },
                     child: Center(
                       child: Text(
-                        "${rowIndex + 1}",
+                        "${rowIndex + 1}'",
                       ),
                     ),
                   ),
@@ -159,4 +162,3 @@ class AntilogPage extends ConsumerWidget {
     );
   }
 }
-

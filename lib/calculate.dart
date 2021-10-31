@@ -34,10 +34,10 @@ class Calculate {
     );
   }
 
-  static Antilog antiLogCell(int value, int number) {
+  static Log antiLogCell(int value, int number) {
     final updated = double.parse("${(value / 100).toStringAsFixed(2)}$number");
     final antilogResult = antilog(updated);
-    return Antilog(
+    return Log(
       value: double.parse(antilogResult.toStringAsFixed(3)),
       label: (antilogResult * 1000).toStringAsFixed(0),
     );

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:log_table/models/feature.dart';
 import 'package:log_table/ui/antilog_page.dart';
 import 'package:log_table/ui/log_page.dart';
+import 'natural_cosines_page.dart';
+import 'natural_sines_page.dart';
 import 'widgets/feature_card.dart';
 
 class HomePage extends StatelessWidget {
@@ -20,14 +22,14 @@ class HomePage extends StatelessWidget {
     ),
     Feature(
       name: "NATURAL SINES",
-      widget: Scaffold(),
-      active: false,
-      label: "COMING SOON",
+      widget: NaturalSinesPage(),
+      active: true,
+      label: "NEW",
     ),
     Feature(
       name: "NATURAL COSINES",
-      widget: Scaffold(),
-      active: false,
+      widget: NaturalCosinesPage(),
+      active: true,
       label: "COMING SOON",
     ),
     Feature(

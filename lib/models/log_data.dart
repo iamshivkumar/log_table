@@ -18,14 +18,6 @@ class Log {
   });
 }
 
-class Antilog {
-  final String label;
-  final double value;
-  Antilog({
-    required this.label,
-    required this.value,
-  });
-}
 
 class LogData {
   final bool isMean;
