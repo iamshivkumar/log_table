@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:log_table/models/feature.dart';
 import 'package:log_table/ui/antilog_page.dart';
 import 'package:log_table/ui/log_page.dart';
+import 'package:log_table/ui/natural_tangents_page.dart';
 import 'natural_cosines_page.dart';
 import 'natural_sines_page.dart';
 import 'widgets/feature_card.dart';
+import 'package:share_plus/share_plus.dart';
 
 class HomePage extends StatelessWidget {
   final List<Feature> features = [
@@ -30,13 +32,13 @@ class HomePage extends StatelessWidget {
       name: "NATURAL COSINES",
       widget: NaturalCosinesPage(),
       active: true,
-      label: "COMING SOON",
+      label: "NEW",
     ),
     Feature(
       name: "NATURAL TANGENTS",
-      widget: Scaffold(),
-      active: false,
-      label: "COMING SOON",
+      widget: NaturalTangentsPage(),
+      active: true,
+      label: "NEW",
     ),
     Feature(
       name: "LOGARITHMIC SINES",
@@ -63,6 +65,15 @@ class HomePage extends StatelessWidget {
     // final style = theme.textTheme;
     // final scheme = theme.colorScheme;
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Share.share(
+              'Log Table app is best app for Logarithmic and Mathematical Tables. Smooth ui, simple to use. User can select row, column and mean difference column and get answer easily. 9th, 10th, 11th Science, 12th Science and JEE, NEET and other entrance exams students can use this app as daily log table. Install now. https://play.google.com/store/apps/details?id=com.logtable.app');
+        },
+        shape:
+            ContinuousRectangleBorder(borderRadius: BorderRadius.circular(48)),
+        child: Icon(Icons.share),
+      ),
       backgroundColor: theme.backgroundColor,
       body: CustomScrollView(
         slivers: [
