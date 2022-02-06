@@ -20,6 +20,7 @@ class Log {
 
 
 class LogData {
+  final bool bar;
   final bool isMean;
   final String label;
   final double value;
@@ -35,6 +36,7 @@ class LogData {
     required this.columnSelected,
     required this.columnName,
     required this.onTap,
-    required this.isMean
+    required this.isMean,
+    this.bar = false,
   });
 }

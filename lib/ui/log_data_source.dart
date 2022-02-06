@@ -38,7 +38,22 @@ class LogDataSource extends DataGridSource {
                       : theme.cardColor)),
           child: InkWell(
             onTap: logData.onTap,
-            child: Center(child: Text(logData.label)),
+            child: Center(child: logData.bar? RichText(text: TextSpan(
+              text: logData.label.split('.').first,
+              children: [
+                TextSpan(
+                  text: ".${logData.label.split('.').last}",
+                  style: TextStyle(
+                    decoration: TextDecoration.none,
+                  )
+                ),
+              ],
+              style: TextStyle(
+                color: Colors.black,
+                decoration: TextDecoration.overline,
+                
+              )
+            )):Text(logData.label)),
           ),
         );
       });

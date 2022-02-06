@@ -147,7 +147,11 @@ class NaturalTangentsPage extends ConsumerWidget {
                       : theme.cardColor,
                   child: InkWell(
                     onTap: () {
-                      model.meanIndex = rowIndex + 1;
+                     if (model.meanIndex == rowIndex + 1) {
+                        model.meanIndex = null;
+                      } else {
+                        model.meanIndex = rowIndex + 1;
+                      }
                     },
                     child: Center(
                       child: Text(

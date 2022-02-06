@@ -25,9 +25,7 @@ class NaturalCosinesPage extends ConsumerWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   model.value,
-                  style: style.subtitle2!.copyWith(
-                    color: scheme.onPrimary
-                  ),
+                  style: style.subtitle2!.copyWith(color: scheme.onPrimary),
                 ),
               ),
             ],
@@ -59,7 +57,8 @@ class NaturalCosinesPage extends ConsumerWidget {
                   List.generate(
                     10,
                     (rowIndex) {
-                      final Log log = NaturalCosines.cosCell(number, rowIndex/10);
+                      final Log log =
+                          NaturalCosines.cosCell(number, rowIndex / 10);
                       return LogData(
                           label: log.label,
                           value: log.value,
@@ -76,7 +75,8 @@ class NaturalCosinesPage extends ConsumerWidget {
                   List.generate(
                     5,
                     (rowIndex) {
-                      final Mean log = NaturalCosines.meanCell(number, rowIndex + 1);
+                      final Mean log =
+                          NaturalCosines.meanCell(number, rowIndex + 1);
                       return LogData(
                         label: log.label,
                         value: log.value,
@@ -124,11 +124,11 @@ class NaturalCosinesPage extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
-                            "${rowIndex*6}'",
+                            "${rowIndex * 6}'",
                             style: style.bodyText1,
                           ),
                           Text(
-                            "${rowIndex/10}°",
+                            "${rowIndex / 10}°",
                           ),
                         ],
                       ),
@@ -147,7 +147,11 @@ class NaturalCosinesPage extends ConsumerWidget {
                       : theme.cardColor,
                   child: InkWell(
                     onTap: () {
-                      model.meanIndex = rowIndex + 1;
+                      if (model.meanIndex == rowIndex + 1) {
+                        model.meanIndex = null;
+                      } else {
+                        model.meanIndex = rowIndex + 1;
+                      }
                     },
                     child: Center(
                       child: Text(

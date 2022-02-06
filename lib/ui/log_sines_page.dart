@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:log_table/calculate.dart';
+import 'package:log_table/log_sines.dart';
 import 'package:log_table/models/log_data.dart';
-import 'package:log_table/ui/providers/log_view_model_provider.dart';
+import 'package:log_table/natural_sines.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import 'log_data_source.dart';
+import 'providers/log_sines_view_model_provider.dart';
+import 'providers/natural_sines_view_model_provider.dart';
 
-class LogPage extends ConsumerWidget {
+class LogSinesPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final style = theme.textTheme;
-    final model = watch(logViewModelProvider);
+    final model = watch(logSinesModelProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("LOGARITHMS"),
+        title: const Text("LOG SINES"),
         actions: [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -40,11 +42,11 @@ class LogPage extends ConsumerWidget {
           data: List.generate(
             90,
             (index) {
-              final number = (index + 10);
+              final number = index;
               return [
                     LogData(
                       label: "$number",
-                      value: number / 10,
+                      value: number.toDouble(),
                       rowSelected: model.rowIndex == number,
                       columnSelected: false,
                       columnName: '',
@@ -57,24 +59,27 @@ class LogPage extends ConsumerWidget {
                   List.generate(
                     10,
                     (rowIndex) {
-                      final Log log = Calculate.logCell(number, rowIndex);
+                      final Log log =
+                          LogSines.logsinCell(number, rowIndex / 10);
                       return LogData(
-                          label: log.label,
-                          value: log.value,
-                          rowSelected: model.rowIndex == number,
-                          columnSelected: model.logIndex == rowIndex,
-                          columnName: "$rowIndex",
-                          onTap: () {
-                            model.logIndex = rowIndex;
-                            model.rowIndex = number;
-                          },
-                          isMean: false);
+                        label: log.label,
+                        value: log.value,
+                        rowSelected: model.rowIndex == number,
+                        columnSelected: model.logIndex == rowIndex,
+                        columnName: "$rowIndex",
+                        onTap: () {
+                          model.logIndex = rowIndex;
+                          model.rowIndex = number;
+                        },
+                        isMean: false,
+                        bar: log.value.isInfinite||log.label.contains('0000')?false:true,
+                      );
                     },
                   ) +
                   List.generate(
-                    9,
+                    5,
                     (rowIndex) {
-                      final Mean log = Calculate.meanCell(number, rowIndex + 1);
+                      final Mean log = LogSines.meanCell(number, rowIndex + 1);
                       return LogData(
                         label: log.label,
                         value: log.value,
@@ -118,8 +123,17 @@ class LogPage extends ConsumerWidget {
                       model.logIndex = rowIndex;
                     },
                     child: Center(
-                      child: Text(
-                        "$rowIndex",
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            "${rowIndex * 6}'",
+                            style: style.bodyText1,
+                          ),
+                          Text(
+                            "${rowIndex / 10}°",
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -127,7 +141,7 @@ class LogPage extends ConsumerWidget {
               ),
             ) +
             List.generate(
-              9,
+              5,
               (rowIndex) => GridColumn(
                 columnName: "${rowIndex + 1}",
                 label: Material(
@@ -144,7 +158,7 @@ class LogPage extends ConsumerWidget {
                     },
                     child: Center(
                       child: Text(
-                        "${rowIndex + 1}",
+                        "${rowIndex + 1}'",
                       ),
                     ),
                   ),
