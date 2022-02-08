@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:log_table/models/feature.dart';
 import 'package:log_table/ui/antilog_page.dart';
+import 'package:log_table/ui/log_cosines_page.dart';
 import 'package:log_table/ui/log_page.dart';
 import 'package:log_table/ui/log_sines_page.dart';
+import 'package:log_table/ui/log_tangents_page.dart';
 import 'package:log_table/ui/natural_tangents_page.dart';
 import 'natural_cosines_page.dart';
 import 'natural_sines_page.dart';
@@ -49,14 +51,14 @@ class HomePage extends StatelessWidget {
     ),
     Feature(
       name: "LOGARITHMIC COSINES",
-      widget: Scaffold(),
-      active: false,
+      widget: LogCosinesPage(),
+      active: true,
       label: "COMING SOON",
     ),
     Feature(
       name: "LOGARITHMIC TANGENTS",
-      widget: Scaffold(),
-      active: false,
+      widget: LogTangentsPage(),
+      active: true,
       label: "COMING SOON",
     ),
   ];

@@ -4,9 +4,9 @@ import 'package:log_table/calculate.dart';
 
 import 'models/log_data.dart';
 
-class LogSines {
-  static double logsin(int value, double number) {
-    return Calculate.log(math.sin((value + number) * math.pi / 180));
+class LogTangents {
+  static double logtan(int value, double number) {
+    return Calculate.log(math.tan((value + number) * math.pi / 180));
   }
 
   static double mean(int value, int minute) {
@@ -14,12 +14,12 @@ class LogSines {
       return 0;
     }
     return double.parse(
-        (logsin(value, 0.5 + minute * 1 / 60) - logsin(value, 0.5))
+        (logtan(value, 0.5 + minute * 1 / 60) - logtan(value, 0.5))
             .toStringAsFixed(4));
   }
 
-  static Log logsinCell(int value, double number) {
-    final result = logsin(value, number);
+  static Log logtanCell(int value, double number) {
+    final result = logtan(value, number);
 
     return Log(
       label: format(result),
@@ -27,12 +27,10 @@ class LogSines {
     );
   }
 
-  // static isInfi
-
   static Mean meanCell(int value, int minute) {
     final result = mean(value, minute);
     return Mean(
-      label: value < 4
+      label: value < 4 || value > 85
           ? "-"
           : int.parse(result.toStringAsFixed(4).split('.').last).toString(),
       value: result,

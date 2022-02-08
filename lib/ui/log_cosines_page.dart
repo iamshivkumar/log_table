@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:log_table/log_sines.dart';
+import 'package:log_table/log_cosines.dart';
 import 'package:log_table/models/log_data.dart';
+import 'package:log_table/ui/providers/log_cosines_view_model_provider.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import 'log_data_source.dart';
-import 'providers/log_sines_view_model_provider.dart';
 
-class LogSinesPage extends ConsumerWidget {
+class LogCosinesPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final style = theme.textTheme;
-    final model = watch(logSinesModelProvider);
+    final model = watch(logCosinesModelProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("LOG SINES"),
+        title: const Text("LOG COSINES"),
         actions: [
-         model.value.isNotEmpty? Column(
+        model.value.isNotEmpty?  Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
@@ -51,7 +51,7 @@ class LogSinesPage extends ConsumerWidget {
                 ),
               ),
             ],
-          ):SizedBox(),
+          ):SizedBox()
         ],
       ),
       body: SfDataGrid(
@@ -80,7 +80,7 @@ class LogSinesPage extends ConsumerWidget {
                     10,
                     (rowIndex) {
                       final Log log =
-                          LogSines.logsinCell(number, rowIndex / 10);
+                          LogCosines.logcosinCell(number, rowIndex / 10);
                       return LogData(
                         label: log.label,
                         value: log.value,
@@ -101,7 +101,7 @@ class LogSinesPage extends ConsumerWidget {
                   List.generate(
                     5,
                     (rowIndex) {
-                      final Mean log = LogSines.meanCell(number, rowIndex + 1);
+                      final Mean log = LogCosines.meanCell(number, rowIndex + 1);
                       return LogData(
                         label: log.label,
                         value: log.value,

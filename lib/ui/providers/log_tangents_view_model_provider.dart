@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:log_table/log_tangents.dart';
 
-import '../../log_sines.dart';
 
-final logSinesModelProvider = ChangeNotifierProvider(
-  (ref) => LogSinesViewModel(),
+final logTangentsModelProvider = ChangeNotifierProvider(
+  (ref) => LogTangentsViewModel(),
 );
 
-class LogSinesViewModel extends ChangeNotifier {
+class LogTangentsViewModel extends ChangeNotifier {
   int? _rowIndex;
   int? get rowIndex => _rowIndex;
   set rowIndex(int? rowIndex) {
@@ -34,15 +34,15 @@ class LogSinesViewModel extends ChangeNotifier {
       return '';
     } else {
       final double log =
-          LogSines.logsinCell(_rowIndex!, _logIndex! / 10).value;
+          LogTangents.logtanCell(_rowIndex!, _logIndex! / 10).value;
       if (_meanIndex != null) {
         final String q = "${_rowIndex}°${_logIndex! * 6 + _meanIndex!}'";
         final double mean =
-            LogSines.meanCell(_rowIndex!, _meanIndex!).value;
-        return "log(sin($q)) = "+ LogSines.format(log + mean);
+            LogTangents.meanCell(_rowIndex!, _meanIndex!).value;
+        return "log(tan($q)) = "+ LogTangents.format(log + mean);
       } else {
         final String q = "${_rowIndex}°${_logIndex! * 6}'";
-        return "log(sin($q)) = ${LogSines.format(log)}";
+        return "log(tan($q)) = ${LogTangents.format(log)}";
       }
     }
   }
