@@ -33,7 +33,7 @@ class LogTangentsPage extends ConsumerWidget {
                         style: TextStyle(
                           decoration:
                               model.value.split(' = ').last.split('.').first !=
-                                      '0'
+                                      '0'&&(model.rowIndex! < 80)
                                   ? TextDecoration.overline
                                   : TextDecoration.none,
                         ),
@@ -92,7 +92,7 @@ class LogTangentsPage extends ConsumerWidget {
                           model.rowIndex = number;
                         },
                         isMean: false,
-                        bar: log.value.isInfinite || log.label.contains('0.')
+                        bar: log.value.isInfinite || log.label.contains('0.')||index>80
                             ? false
                             : true,
                       );

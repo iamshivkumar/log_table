@@ -17,49 +17,44 @@ class HomePage extends StatelessWidget {
       name: "LOGARITHMS",
       widget: LogPage(),
       active: true,
-      label: "NEW",
     ),
     Feature(
       name: "ANTILOGARITHMS",
       widget: AntilogPage(),
       active: true,
-      label: "NEW",
     ),
     Feature(
       name: "NATURAL SINES",
       widget: NaturalSinesPage(),
       active: true,
-      label: "NEW",
     ),
     Feature(
       name: "NATURAL COSINES",
       widget: NaturalCosinesPage(),
       active: true,
-      label: "NEW",
     ),
     Feature(
       name: "NATURAL TANGENTS",
       widget: NaturalTangentsPage(),
       active: true,
-      label: "NEW",
     ),
     Feature(
       name: "LOGARITHMIC SINES",
       widget: LogSinesPage(),
       active: true,
-      label: "COMING SOON",
+      label: "NEW",
     ),
     Feature(
       name: "LOGARITHMIC COSINES",
       widget: LogCosinesPage(),
       active: true,
-      label: "COMING SOON",
+      label: "NEW",
     ),
     Feature(
       name: "LOGARITHMIC TANGENTS",
       widget: LogTangentsPage(),
       active: true,
-      label: "COMING SOON",
+      label: "NEW",
     ),
   ];
   @override

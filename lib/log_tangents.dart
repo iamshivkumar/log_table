@@ -43,6 +43,11 @@ class LogTangents {
     }
 
     double v = result;
+
+    if (v > 0) {
+      return v.toStringAsFixed(4);
+    }
+
     int bar = 0;
 
     while (v < 0) {

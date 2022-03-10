@@ -51,7 +51,7 @@ class FeatureCard extends StatelessWidget {
                     : Container(
                         color: theme.backgroundColor.withOpacity(0.5),
                       ),
-                Positioned(
+               feature.label!=null? Positioned(
                   right: 0,
                   child: Material(
                     color: scheme.secondary,
@@ -60,12 +60,12 @@ class FeatureCard extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8),
-                      child: Text(feature.label,
+                      child: Text(feature.label!,
                           style: style.overline!
                               .copyWith(color: scheme.onPrimary)),
                     ),
                   ),
-                ),
+                ):SizedBox(),
               ],
             ),
           ),
