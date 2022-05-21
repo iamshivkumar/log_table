@@ -8,12 +8,14 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'log_data_source.dart';
 
 class NaturalCosinesPage extends ConsumerWidget {
+  const NaturalCosinesPage({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final style = theme.textTheme;
-    final model = watch(naturalCosinesModelProvider);
+    final model = ref.watch(naturalCosinesModelProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text("NATURAL COSINES"),
@@ -25,7 +27,6 @@ class NaturalCosinesPage extends ConsumerWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   model.value,
-                  style: style.subtitle2!.copyWith(color: scheme.onPrimary),
                 ),
               ),
             ],
@@ -35,7 +36,7 @@ class NaturalCosinesPage extends ConsumerWidget {
       body: SfDataGrid(
         rowHeight: 32,
         frozenColumnsCount: 1,
-        headerRowHeight: 40,
+        headerRowHeight: 56,
         source: LogDataSource(
           data: List.generate(
             90,
@@ -113,8 +114,8 @@ class NaturalCosinesPage extends ConsumerWidget {
                 columnName: rowIndex.toString(),
                 label: Material(
                   color: model.logIndex == rowIndex
-                      ? theme.primaryColor
-                      : theme.cardColor,
+                      ? scheme.primaryContainer
+                      : scheme.surface,
                   child: InkWell(
                     onTap: () {
                       model.logIndex = rowIndex;
@@ -143,8 +144,8 @@ class NaturalCosinesPage extends ConsumerWidget {
                 columnName: "${rowIndex + 1}",
                 label: Material(
                   color: model.meanIndex == rowIndex + 1
-                      ? scheme.secondary
-                      : theme.cardColor,
+                      ? scheme.tertiaryContainer
+                      : scheme.surface,
                   child: InkWell(
                     onTap: () {
                       if (model.meanIndex == rowIndex + 1) {

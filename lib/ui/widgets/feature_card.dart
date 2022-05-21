@@ -12,62 +12,56 @@ class FeatureCard extends StatelessWidget {
     final theme = Theme.of(context);
     final style = theme.textTheme;
     final scheme = theme.colorScheme;
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: AspectRatio(
-        aspectRatio: 3,
-        child: GestureDetector(
-          onTap: () {
-            if (feature.active) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => feature.widget,
-                ),
-              );
-            }
-          },
-          child: Container(
-            clipBehavior: Clip.antiAlias,
-            decoration: ShapeDecoration(
-              color: theme.primaryColor,
-              shape: ContinuousRectangleBorder(
-                borderRadius: BorderRadius.circular(56),
+    return AspectRatio(
+      aspectRatio: 3.5,
+      child: GestureDetector(
+        onTap: () {
+          if (feature.active) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => feature.widget,
               ),
-            ),
-            child: Stack(
-              children: [
-                Center(
-                  child: Text(
-                    feature.name,
-                    style: style.headline6!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: scheme.onPrimary,
-                    ),
-                  ),
+            );
+          }
+        },
+        child: Card(
+          margin: const EdgeInsets.all(8),
+          clipBehavior: Clip.antiAlias,
+          shape: ContinuousRectangleBorder(
+            borderRadius: BorderRadius.circular(56),
+          ),
+          child: Stack(
+            children: [
+              Center(
+                child: Text(
+                  feature.name,
+                  style: style.headline6,
                 ),
-                feature.active
-                    ? SizedBox()
-                    : Container(
-                        color: theme.backgroundColor.withOpacity(0.5),
-                      ),
-               feature.label!=null? Positioned(
+              ),
+              if (!feature.active)
+                Container(
+                  color: theme.cardColor.withOpacity(0.5),
+                ),
+              if (feature.label != null)
+                Positioned(
                   right: 0,
                   child: Material(
-                    color: scheme.secondary,
+                    color: scheme.tertiary,
                     shape: ContinuousRectangleBorder(
                       borderRadius: BorderRadius.circular(56),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Text(feature.label!,
-                          style: style.overline!
-                              .copyWith(color: scheme.onPrimary)),
+                      padding: const EdgeInsets.all(12),
+                      child: Text(
+                        feature.label!,
+                        style:
+                            style.overline!.copyWith(color: scheme.onPrimary),
+                      ),
                     ),
                   ),
-                ):SizedBox(),
-              ],
-            ),
+                ),
+            ],
           ),
         ),
       ),

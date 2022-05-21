@@ -8,12 +8,14 @@ import 'log_data_source.dart';
 import 'providers/natural_sines_view_model_provider.dart';
 
 class NaturalSinesPage extends ConsumerWidget {
+  const NaturalSinesPage({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final style = theme.textTheme;
-    final model = watch(naturalSinesModelProvider);
+    final model = ref.watch(naturalSinesModelProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text("NATURAL SINES"),
@@ -25,9 +27,6 @@ class NaturalSinesPage extends ConsumerWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   model.value,
-                  style: style.subtitle2!.copyWith(
-                    color: scheme.onPrimary
-                  ),
                 ),
               ),
             ],
@@ -37,7 +36,7 @@ class NaturalSinesPage extends ConsumerWidget {
       body: SfDataGrid(
         rowHeight: 32,
         frozenColumnsCount: 1,
-        headerRowHeight: 40,
+        headerRowHeight: 56,
         source: LogDataSource(
           data: List.generate(
             90,
@@ -59,7 +58,8 @@ class NaturalSinesPage extends ConsumerWidget {
                   List.generate(
                     10,
                     (rowIndex) {
-                      final Log log = NaturalSines.sinCell(number, rowIndex/10);
+                      final Log log =
+                          NaturalSines.sinCell(number, rowIndex / 10);
                       return LogData(
                           label: log.label,
                           value: log.value,
@@ -76,7 +76,8 @@ class NaturalSinesPage extends ConsumerWidget {
                   List.generate(
                     5,
                     (rowIndex) {
-                      final Mean log = NaturalSines.meanCell(number, rowIndex + 1);
+                      final Mean log =
+                          NaturalSines.meanCell(number, rowIndex + 1);
                       return LogData(
                         label: log.label,
                         value: log.value,
@@ -113,8 +114,8 @@ class NaturalSinesPage extends ConsumerWidget {
                 columnName: rowIndex.toString(),
                 label: Material(
                   color: model.logIndex == rowIndex
-                      ? theme.primaryColor
-                      : theme.cardColor,
+                      ? scheme.primaryContainer
+                      : scheme.surface,
                   child: InkWell(
                     onTap: () {
                       model.logIndex = rowIndex;
@@ -124,11 +125,11 @@ class NaturalSinesPage extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
-                            "${rowIndex*6}'",
+                            "${rowIndex * 6}'",
                             style: style.bodyText1,
                           ),
                           Text(
-                            "${rowIndex/10}°",
+                            "${rowIndex / 10}°",
                           ),
                         ],
                       ),
@@ -143,8 +144,8 @@ class NaturalSinesPage extends ConsumerWidget {
                 columnName: "${rowIndex + 1}",
                 label: Material(
                   color: model.meanIndex == rowIndex + 1
-                      ? scheme.secondary
-                      : theme.cardColor,
+                      ? scheme.tertiaryContainer
+                      : scheme.surface,
                   child: InkWell(
                     onTap: () {
                       if (model.meanIndex == rowIndex + 1) {

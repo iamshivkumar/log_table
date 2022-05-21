@@ -8,13 +8,14 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'providers/antilog_view_model_provider.dart';
 
 class AntilogPage extends ConsumerWidget {
+  const AntilogPage({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final style = theme.textTheme;
     final scheme = theme.colorScheme;
 
-    final model = watch(antilogViewModelProvider);
+    final model = ref.watch(antilogViewModelProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('ANTILOGARITHMS'),
@@ -26,7 +27,6 @@ class AntilogPage extends ConsumerWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   model.value,
-                  style: style.subtitle2!.copyWith(color: scheme.onPrimary),
                 ),
               ),
             ],
@@ -58,8 +58,7 @@ class AntilogPage extends ConsumerWidget {
                   List.generate(
                     10,
                     (rowIndex) {
-                      final Log log =
-                          Calculate.antiLogCell(number, rowIndex);
+                      final Log log = Calculate.antiLogCell(number, rowIndex);
                       return LogData(
                         isMean: false,
                         label: log.label,
@@ -115,8 +114,8 @@ class AntilogPage extends ConsumerWidget {
                 columnName: rowIndex.toString(),
                 label: Material(
                   color: model.antilogIndex == rowIndex
-                      ? theme.primaryColor
-                      : theme.cardColor,
+                      ? scheme.primaryContainer
+                      : scheme.surface,
                   child: InkWell(
                     onTap: () {
                       model.antilogIndex = rowIndex;
@@ -136,8 +135,8 @@ class AntilogPage extends ConsumerWidget {
                 columnName: "${rowIndex + 1}",
                 label: Material(
                   color: model.meanIndex == rowIndex + 1
-                      ? scheme.secondary
-                      : theme.cardColor,
+                      ? scheme.tertiaryContainer
+                      : scheme.surface,
                   child: InkWell(
                     onTap: () {
                       if (model.meanIndex == rowIndex + 1) {
@@ -159,4 +158,3 @@ class AntilogPage extends ConsumerWidget {
     );
   }
 }
-

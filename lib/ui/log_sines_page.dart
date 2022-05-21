@@ -8,56 +8,64 @@ import 'log_data_source.dart';
 import 'providers/log_sines_view_model_provider.dart';
 
 class LogSinesPage extends ConsumerWidget {
+  const LogSinesPage({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final style = theme.textTheme;
-    final model = watch(logSinesModelProvider);
+    final model = ref.watch(logSinesModelProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text("LOG SINES"),
         actions: [
-         model.value.isNotEmpty? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: RichText(
-                  text: TextSpan(
-                    text: "${model.value.split(' = ').first} = ",
-                    children: [
-                      TextSpan(
-                        text:
-                            "${model.value.split(' = ').last.split('.').first}",
-                        style: TextStyle(
-                          decoration:
-                              model.value.split(' = ').last.split('.').first !=
-                                      '0'
-                                  ? TextDecoration.overline
-                                  : TextDecoration.none,
+          model.value.isNotEmpty
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: RichText(
+                        text: TextSpan(
+                          text: "${model.value.split(' = ').first} = ",
+                          children: [
+                            TextSpan(
+                              text:
+                                  "${model.value.split(' = ').last.split('.').first}",
+                              style: TextStyle(
+                                decoration: model.value
+                                            .split(' = ')
+                                            .last
+                                            .split('.')
+                                            .first !=
+                                        '0'
+                                    ? TextDecoration.overline
+                                    : TextDecoration.none,
+                              ),
+                            ),
+                            TextSpan(
+                              text: ".${model.value.split('.').last}",
+                              style: const TextStyle(
+                                decoration: TextDecoration.none,
+                              ),
+                            ),
+                          ],
+                          style: TextStyle(
+                            color: scheme.onSurfaceVariant,
+                          ),
                         ),
                       ),
-                      TextSpan(
-                          text: ".${model.value.split('.').last}",
-                          style: TextStyle(
-                            decoration: TextDecoration.none,
-                          )),
-                    ],
-                    style: TextStyle(
-                      color: Colors.black,
                     ),
-                  ),
-                ),
-              ),
-            ],
-          ):SizedBox(),
+                  ],
+                )
+              : const SizedBox(),
         ],
       ),
       body: SfDataGrid(
         rowHeight: 32,
         frozenColumnsCount: 1,
-        headerRowHeight: 40,
+        headerRowHeight: 56,
         source: LogDataSource(
           data: List.generate(
             90,
@@ -138,8 +146,8 @@ class LogSinesPage extends ConsumerWidget {
                 columnName: rowIndex.toString(),
                 label: Material(
                   color: model.logIndex == rowIndex
-                      ? theme.primaryColor
-                      : theme.cardColor,
+                      ? scheme.primaryContainer
+                      : scheme.surface,
                   child: InkWell(
                     onTap: () {
                       model.logIndex = rowIndex;
@@ -168,8 +176,8 @@ class LogSinesPage extends ConsumerWidget {
                 columnName: "${rowIndex + 1}",
                 label: Material(
                   color: model.meanIndex == rowIndex + 1
-                      ? scheme.secondary
-                      : theme.cardColor,
+                      ? scheme.tertiaryContainer
+                      : scheme.surface,
                   child: InkWell(
                     onTap: () {
                       if (model.meanIndex == rowIndex + 1) {

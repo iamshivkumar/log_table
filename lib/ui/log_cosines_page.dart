@@ -8,56 +8,63 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'log_data_source.dart';
 
 class LogCosinesPage extends ConsumerWidget {
+  const LogCosinesPage({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final style = theme.textTheme;
-    final model = watch(logCosinesModelProvider);
+    final model = ref.watch(logCosinesModelProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text("LOG COSINES"),
         actions: [
-        model.value.isNotEmpty?  Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: RichText(
-                  text: TextSpan(
-                    text: "${model.value.split(' = ').first} = ",
-                    children: [
-                      TextSpan(
-                        text:
-                            "${model.value.split(' = ').last.split('.').first}",
-                        style: TextStyle(
-                          decoration:
-                              model.value.split(' = ').last.split('.').first !=
-                                      '0'
-                                  ? TextDecoration.overline
-                                  : TextDecoration.none,
+          model.value.isNotEmpty
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: RichText(
+                        text: TextSpan(
+                          text: "${model.value.split(' = ').first} = ",
+                          children: [
+                            TextSpan(
+                              text:
+                                  "${model.value.split(' = ').last.split('.').first}",
+                              style: TextStyle(
+                                decoration: model.value
+                                            .split(' = ')
+                                            .last
+                                            .split('.')
+                                            .first !=
+                                        '0'
+                                    ? TextDecoration.overline
+                                    : TextDecoration.none,
+                              ),
+                            ),
+                            TextSpan(
+                                text: ".${model.value.split('.').last}",
+                                style: const TextStyle(
+                                  decoration: TextDecoration.none,
+                                ),),
+                          ],
+                          style: TextStyle(
+                            color: scheme.onSurfaceVariant,
+                          ),
                         ),
                       ),
-                      TextSpan(
-                          text: ".${model.value.split('.').last}",
-                          style: TextStyle(
-                            decoration: TextDecoration.none,
-                          )),
-                    ],
-                    style: TextStyle(
-                      color: Colors.black,
                     ),
-                  ),
-                ),
-              ),
-            ],
-          ):SizedBox()
+                  ],
+                )
+              : SizedBox()
         ],
       ),
       body: SfDataGrid(
         rowHeight: 32,
         frozenColumnsCount: 1,
-        headerRowHeight: 40,
+        headerRowHeight: 56,
         source: LogDataSource(
           data: List.generate(
             90,
@@ -101,7 +108,8 @@ class LogCosinesPage extends ConsumerWidget {
                   List.generate(
                     5,
                     (rowIndex) {
-                      final Mean log = LogCosines.meanCell(number, rowIndex + 1);
+                      final Mean log =
+                          LogCosines.meanCell(number, rowIndex + 1);
                       return LogData(
                         label: log.label,
                         value: log.value,
@@ -138,8 +146,8 @@ class LogCosinesPage extends ConsumerWidget {
                 columnName: rowIndex.toString(),
                 label: Material(
                   color: model.logIndex == rowIndex
-                      ? theme.primaryColor
-                      : theme.cardColor,
+                      ? scheme.primaryContainer
+                      : scheme.surface,
                   child: InkWell(
                     onTap: () {
                       model.logIndex = rowIndex;
@@ -168,8 +176,8 @@ class LogCosinesPage extends ConsumerWidget {
                 columnName: "${rowIndex + 1}",
                 label: Material(
                   color: model.meanIndex == rowIndex + 1
-                      ? scheme.secondary
-                      : theme.cardColor,
+                      ? scheme.tertiaryContainer
+                      : scheme.surface,
                   child: InkWell(
                     onTap: () {
                       if (model.meanIndex == rowIndex + 1) {

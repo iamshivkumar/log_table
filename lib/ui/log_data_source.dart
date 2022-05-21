@@ -22,38 +22,64 @@ class LogDataSource extends DataGridSource {
       return Builder(builder: (context) {
         final theme = Theme.of(context);
         final scheme = theme.colorScheme;
+
+        final textColor = logData.isMean
+            ? (logData.columnSelected && logData.rowSelected
+                ? scheme.onSecondary
+                : (logData.columnSelected
+                    ? scheme.onTertiaryContainer
+                    : logData.rowSelected
+                        ? scheme.onSecondaryContainer
+                        : scheme.onSurface))
+            : (logData.columnSelected && logData.rowSelected
+                ? scheme.onPrimary
+                : (logData.columnSelected || logData.rowSelected
+                    ? scheme.onPrimaryContainer
+                    : scheme.onSurface));
+
         return Material(
           color: logData.isMean
               ? (logData.columnSelected && logData.rowSelected
-                  ? theme.highlightColor
+                  ? Color.alphaBlend(scheme.tertiary.withOpacity(0.75),
+                      scheme.secondary.withOpacity(0.75))
                   : (logData.columnSelected
-                      ? scheme.secondary
+                      ? scheme.tertiaryContainer
                       : logData.rowSelected
-                          ? theme.shadowColor
-                          : scheme.background))
+                          ? scheme.secondaryContainer
+                          : scheme.surfaceVariant.withOpacity(0.33)))
               : (logData.columnSelected && logData.rowSelected
-                  ? theme.primaryColorDark
+                  ? scheme.primary
                   : (logData.columnSelected || logData.rowSelected
-                      ? theme.primaryColor
-                      : theme.cardColor)),
+                      ? scheme.primaryContainer
+                      : scheme.surface)),
           child: InkWell(
             onTap: logData.onTap,
-            child: Center(child: logData.bar? RichText(text: TextSpan(
-              text: logData.label.split('.').first,
-              children: [
-                TextSpan(
-                  text: ".${logData.label.split('.').last}",
-                  style: TextStyle(
-                    decoration: TextDecoration.none,
-                  )
-                ),
-              ],
-              style: TextStyle(
-                color: Colors.black,
-                decoration: TextDecoration.overline,
-                
-              )
-            )):Text(logData.label)),
+            child: Center(
+              child: logData.bar
+                  ? RichText(
+                      text: TextSpan(
+                        text: logData.label.split('.').first,
+                        children: [
+                          TextSpan(
+                            text: ".${logData.label.split('.').last}",
+                            style: const TextStyle(
+                              decoration: TextDecoration.none,
+                            ),
+                          ),
+                        ],
+                        style: TextStyle(
+                          color: textColor,
+                          decoration: TextDecoration.overline,
+                        ),
+                      ),
+                    )
+                  : Text(
+                      logData.label,
+                      style: TextStyle(
+                        color: textColor,
+                      ),
+                    ),
+            ),
           ),
         );
       });

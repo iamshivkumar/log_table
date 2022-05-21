@@ -8,12 +8,14 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'log_data_source.dart';
 
 class LogPage extends ConsumerWidget {
+  const LogPage({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final style = theme.textTheme;
-    final model = watch(logViewModelProvider);
+    final model = ref.watch(logViewModelProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text("LOGARITHMS"),
@@ -25,7 +27,6 @@ class LogPage extends ConsumerWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   model.value,
-                  style: style.subtitle2!.copyWith(color: scheme.onPrimary),
                 ),
               ),
             ],
@@ -111,8 +112,8 @@ class LogPage extends ConsumerWidget {
                 columnName: rowIndex.toString(),
                 label: Material(
                   color: model.logIndex == rowIndex
-                      ? theme.primaryColor
-                      : theme.cardColor,
+                      ? scheme.primaryContainer
+                      : scheme.surface,
                   child: InkWell(
                     onTap: () {
                       model.logIndex = rowIndex;
@@ -132,8 +133,8 @@ class LogPage extends ConsumerWidget {
                 columnName: "${rowIndex + 1}",
                 label: Material(
                   color: model.meanIndex == rowIndex + 1
-                      ? scheme.secondary
-                      : theme.cardColor,
+                      ? scheme.tertiaryContainer
+                      : scheme.surface,
                   child: InkWell(
                     onTap: () {
                       if (model.meanIndex == rowIndex + 1) {

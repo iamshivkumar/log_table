@@ -6,7 +6,7 @@ class Feature {
   final Widget widget;
   final bool active;
   
-  Feature({
+ const Feature({
     required this.name,
      this.label,
     required this.widget,
